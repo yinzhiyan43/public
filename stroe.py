@@ -47,7 +47,8 @@ def pross():
     openpose = OpenPose(params)
 
     #video_path = "/woody/software/source/openpose/examples/media/video.avi"
-    video_path = "/home/woody/tmp/openpose/test.bak.mp4"
+    #video_path = "/home/woody/tmp/openpose/test1.mp4"
+    video_path = "/home/woody/tmp/openpose/video/4804_exit_overvie.mp4"
     video = cv2.VideoCapture()
 
     if not video.open(video_path):
@@ -65,12 +66,19 @@ def pross():
        if frame is None:
           break
        if f_count % 15 == 0:
-            keypoints,scores = openpose.forward(frame, False)
+            st = time.time()
             output_image = frame
+            keypoints,scores,output_image = openpose.forward(frame, True)
+            print("openpose>>>" + str(time.time() - st))
+
             image = output_image
             flag = False
             continuity = False
             key = "image_info_" + str(index)
+            #cv2.imshow("image",image)
+            #cv2.waitKey(0)
+            #print("start ===============" + key)
+
             for keypoint in keypoints:
                 if calcBuleRate(image,[keypoint[12][0],keypoint[12][1]], [keypoint[9][0],keypoint[9][1]], [keypoint[2][0],keypoint[2][1]],[keypoint[5][0],keypoint[5][1]]) == False:
                    continue
@@ -122,7 +130,7 @@ def pross():
 
             if continuity:
                 v_flag = False
-                print(">>>>>" + str(up_imageArray))
+                #print(">>>>>" + str(up_imageArray))
                 if len(up_imageArray) >= 1:
                     if len(continuityArray) >= 1:
                         for u_index in range(len(up_imageArray)):
@@ -141,7 +149,6 @@ def pross():
                 if count < 1:
                     v_flag = True
                 if v_flag:
-
                     save_path = "{}/{:>03s}.jpg".format("/home/woody/tmp/openpose/li", str(key))
                     cv2.imwrite(save_path, image)
                     if 'index' in imageArray.keys():
@@ -170,7 +177,7 @@ def pross():
 
             else:
                 if 'index' in imageArray.keys():
-                    if imageArray['start'] >= count -10:
+                    if imageArray['start'] < count -10:
                         save_path = "{}/{:>03s}.jpg".format("/home/woody/tmp/openpose/test", str(imageArray['key']))
                         if imageArray['count'] > 1:
                             cv2.imwrite(save_path, imageArray["image"])
@@ -181,9 +188,14 @@ def pross():
                     up_imageArray = []
                     continuityArray = []
             count = count + 1
+            print("end ===============" + key)
             print(str(count) + ",totail>>>" + str(time.time() - start))
             index += 1
        f_count = f_count + 1
+    if 'index' in imageArray.keys():
+        save_path = "{}/{:>03s}.jpg".format("/home/woody/tmp/openpose/test", str(imageArray['key']))
+        if imageArray['count'] > 1:
+            cv2.imwrite(save_path, imageArray["image"])
     print(">>>" + str(time.time() - start))
     video.release()
     print("Totally save {:d} pics".format(index - 1))

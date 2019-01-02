@@ -45,7 +45,7 @@ def calcBuleRate(image, left0, left1, right0, right1):
         return False
     if (blueArea/totalArea) >= rateValue:
         return True
-    if (blueArea/totalArea) < rateValue and rateValue == 0.6:
+    if (blueArea/totalArea) < rateValue and rateValue == 0.4:
         mbox = np.array([[mleft0,mleft1, mright0, mright1]], dtype = np.int32)
         mmaskImage = np.zeros(image.shape[:2], dtype = "uint8")
         cv2.polylines(mmaskImage, mbox, 1, 255)
