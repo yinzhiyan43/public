@@ -51,7 +51,7 @@ def pross():
     openpose = OpenPose(params)
 
     #video_path = "/woody/software/source/openpose/examples/media/video.avi"
-    video_path = "/home/woody/tmp/openpose/test.mp4"
+    video_path = "/home/woody/tmp/openpose/video/4804_exit_overvie.mp4"
     video = cv2.VideoCapture()
 
     if not video.open(video_path):

@@ -52,7 +52,7 @@ def calcBuleRate(image, left0, left1, right0, right1):
         mtotalArea = calcTotalArea(cv2.fillPoly(mmaskImage, mbox, 255))
         mblueArea = calcBlueArea(cv2.bitwise_and(thresholded, thresholded, mask=mmaskImage))
 
-    #print(((blueArea-mblueArea)/(totalArea-mtotalArea)))
+    print(((blueArea-mblueArea)/(totalArea-mtotalArea)))
     return ((blueArea-mblueArea)/(totalArea-mtotalArea)) >= rateValue
 
 def calcTotalArea(maskImage):

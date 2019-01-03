@@ -78,7 +78,7 @@ def pross():
     up_imageArray = []
     up_image = {}
     for ret_index in range(1,len(ret)+1):
-        key = "image_info_360"
+        key = "image_info_8"
         #key = redis.lindex("keysList",(len(ret)-ret_index))
         ret_data = redis.get(key)
         if ret_data is None:
